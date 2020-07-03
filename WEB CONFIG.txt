@@ -1,0 +1,3 @@
+  <connectionStrings>
+    <add name="conn1" connectionString="data source=DESKTOP-M3VUEBJ\SQLEXPRESS; initial catalog=today080620; integrated security=true"/>
+  </connectionStrings>

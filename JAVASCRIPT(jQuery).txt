@@ -1,0 +1,97 @@
+$(document).ready(function () {
+    Show();
+    CountryData();
+});
+
+var IID = 0;
+
+function SaveData() {
+    if ($("#btnsave").val() == "Save") {
+        $.ajax({
+            url: 'Student/insertData',
+            data: { name: $("#txtname").val(), ctr: $("#ddlcountry").val(), roll: $("#txtroll").val() },
+            success: function () {
+                Show();
+            },
+            error: function () {
+                Show();
+            }
+        });
+    }
+    else {
+        $.ajax({
+            url: 'Student/Update',
+            data: { X: IID, A: $("#txtname").val(), B: $("#ddlcountry").val(), C: $("#txtroll").val() },
+            success: function () {
+                Show();
+            },
+            error: function () {
+                alert("Data not updated!");
+            }
+        });
+    }
+}
+
+function Show() {
+    $.ajax({
+        url: 'Student/Show',
+        data: {},
+        success: function (data) {
+            data = JSON.parse(data);
+            $("#tbl").find('tr:gt(0)').remove();
+            for (var i = 0 ; i < data.length; i++) {
+                $("#tbl").append('<tr> <td>' + data[i].name + '</td> <td>' + data[i].cname + ' </td> <td>' + data[i].roll + ' </td>  <td>  <input type="button" id="btndelete" value="DELETE" onclick= "DeleteData(' + data[i].id + ')" />  </td> <td>  <input type="button" id="btnedit" value="Edit" onclick= "EditData(' + data[i].id + ')" /> </td> <tr>');
+            }
+        },
+        error: function () {
+            alert("Data not show!");
+        }
+    });
+}
+
+function CountryData() {
+    $.ajax({
+        url: 'Student/Country',
+        data: {},
+        success: function (data) {
+            data = JSON.parse(data);
+            for (var i = 0 ; i < data.length; i++) {
+                $("#ddlcountry").append($('<option/>').attr("value", data[i].cid).text(data[i].cname));
+            }
+        },
+        error: function () {
+            alert("Country not choose!");
+        }
+    });
+}
+
+function DeleteData(id) {
+    $.ajax({
+        url: 'Student/Delete',
+        data: { A: id },
+        success: function () {
+            Show();
+        },
+        error: function () {
+            alert("Data not delete!");
+        }
+    });
+}
+
+function EditData(id) {
+    $.ajax({
+        url: 'Student/Edit',
+        data: { A: id },
+        success: function (data) {
+            data = JSON.parse(data);
+            $("#txtname").val(data[0].name);
+            $("#ddlcountry").val(data[0].ctr);
+            $("#txtroll").val(data[0].roll);
+            $("#btnsave").val("Update");
+            IID = id;
+        },
+        error: function () {
+            alert("Data not edit!");
+        }
+    });
+}

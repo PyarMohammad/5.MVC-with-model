@@ -1,0 +1,1 @@
+defaults: new { controller = "Student", action = "insert", id = UrlParameter.Optional }

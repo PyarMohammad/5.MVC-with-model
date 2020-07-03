@@ -1,0 +1,45 @@
+function Validation() {
+    var dabba = "";
+
+    dabba = checkname();
+    dabba += checkcountry();
+    dabba += checkroll();
+
+    if (dabba != "") {
+        alert(dabba);
+        return false;
+    }
+    else {
+        SaveData();
+    }
+}
+
+function checkname() {
+    var TB = $("#txtname");
+    if (TB.val() == "") {
+        return 'Please enter your name\n';
+    }
+    else {
+        return "";
+    }
+}
+
+function checkcountry() {
+    var TB = $("#ddlcountry");
+    if (TB.val() == "0") {
+        return 'Please enter your country\n';
+    }
+    else {
+        return "";
+    }
+}
+
+function checkroll() {
+    var TB = $("#txtroll");
+    if (TB.val() == "") {
+        return 'Please enter your roll\n';
+    }
+    else {
+        return "";
+    }
+}
