@@ -1,0 +1,76 @@
+create database today080620
+use today080620
+
+create table tblEmp
+(
+  id int primary key identity,
+  name varchar(50),
+  ctr int,
+  roll int
+)
+
+------------------------------------------------
+
+create table tblCountry
+(
+  cid int primary key identity,
+  cname varchar(50)
+)
+insert into tblCountry(cname)values('IND'),('PAK'),('USA')
+
+-------------------------------------------------------------
+
+alter proc usp_tblEmp
+@action varchar(50)=null,
+@id int=0,
+@name varchar(50)=null,
+@ctr int=0,
+@roll int=0
+as
+begin
+      if(@action='insert')
+	  begin
+	        insert into tblEmp(name,ctr,roll)values(@name,@ctr,@roll)
+	  end
+
+      else if(@action='show')
+	  begin
+	        select *from tblEmp
+	  end
+
+      else if(@action='bindcountry')
+	  begin
+	        select * from tblCountry 
+	  end
+
+	  else if(@action='delete')
+	  begin
+	       delete from tblEmp where id=@id
+	  end
+
+     else if(@action='edit')
+	 begin
+	        select * from tblEmp where  id=@id
+	 end
+
+      else if(@action='update')
+	  begin
+	        update tblEmp set name=@name, ctr=@ctr, roll=@roll where id=@id
+	  end
+
+	  else if(@action='join')
+	  begin
+	        select * from tblEmp inner join tblCountry 
+			on tblEmp.ctr = tblCountry.cid
+	  end
+end
+
+select *from tblEmp
+select *from tblCountry
+
+
+
+
+
+
+
